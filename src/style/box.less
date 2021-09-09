@@ -1,0 +1,59 @@
+@space: 5px;
+@count: 10;
+
+.m(@n, @i: 1) when (@i =< @n) {
+    .ml-@{i} {
+        margin-left: @i * @space;
+    }
+    .mr-@{i} {
+      margin-right: @i * @space;
+    }
+    .mt-@{i} {
+      margin-top: @i * @space;
+    }
+    .mb-@{i} {
+      margin-bottom: @i * @space;
+    }
+    .mx-@{i} {
+      margin-right: @i * @space;
+      margin-left: @i * @space;
+    }
+    .my-@{i} {
+      margin-top: @i * @space;
+      margin-bottom: @i * @space;
+    }
+    .m-@{i} {
+      margin: @i * @space;
+    }
+    .m(@n, @i + 1);
+}
+
+.p(@n, @i: 1) when (@i =< @n) {
+    .pl-@{i} {
+      padding-left: @i * @space;
+    }
+    .pr-@{i} {
+      padding-right: @i * @space;
+    }
+    .pt-@{i} {
+      padding-top: @i * @space;
+    }
+    .pb-@{i} {
+      padding-bottom: @i * @space;
+    }
+    .px-@{i} {
+      padding-right: @i * @space;
+      padding-left: @i * @space;
+    }
+    .py-@{i} {
+      padding-top: @i * @space;
+      padding-bottom: @i * @space;
+    }
+    .p-@{i} {
+      padding: @i * @space;
+    }
+    .p(@n, @i + 1);
+}
+  
+.m(@count);
+.p(@count);
