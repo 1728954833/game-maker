@@ -1,6 +1,11 @@
 {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
-    }
+    },
+    "prettier.singleQuote": true,
+    "prettier.semi": true,
+    "cSpell.words": [
+        "Sider"
+    ]
 }

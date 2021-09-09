@@ -5,7 +5,6 @@ import App from './main/App';
 import reportWebVitals from './reportWebVitals';
 
 console.log(process.env.REACT_APP_TEST)
-const a = 1;
 ReactDOM.render(
   <React.StrictMode>
     <App />

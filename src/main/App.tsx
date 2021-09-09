@@ -1,7 +1,7 @@
-import { Button } from 'antd'
+import WorkSpacePage from "../page/workspace";
 
 function App() {
-  return <Button>Hello World</Button>;
+  return <WorkSpacePage />;
 }
 
 export default App;
