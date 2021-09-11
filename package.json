@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "validate-commit-msg": "^2.14.0"

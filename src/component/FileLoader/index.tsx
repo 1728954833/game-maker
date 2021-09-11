@@ -2,6 +2,8 @@ import './index.less';
 import { Button } from 'antd';
 import PicturePreview from '../PicturePreview';
 import MusicPreview from '../MusicPreview';
+import imgPath from 'C:/Users/dream/Desktop/朋友(Friends)-6_爱给网_aigei_com/bs_yk01d.png';
+
 export interface IFileLoaderProps {}
 
 const tabs = [
@@ -50,8 +52,8 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                 ))}
             </div>
             <div className="tab-contents p-2">
-                <PicturePreview />
-                <MusicPreview />
+                <PicturePreview src={imgPath} name={'傻女a'} />
+                <MusicPreview name="123" src={'1.mp3'} />
             </div>
         </div>
     );

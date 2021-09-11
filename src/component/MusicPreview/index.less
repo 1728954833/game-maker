@@ -3,7 +3,7 @@
     display: flex;
     padding: 5px 10px;
     border: 1px solid @border-color;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 10px;
 }
 
@@ -16,10 +16,18 @@
 }
 
 .music-preview-right {
-    width:50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:60px;
 }
 
-.play {
+.play
+.pause {
     margin-left: 10px;
     cursor: pointer;
+}
+
+.pause {
+    color: @primary-color;
 }
