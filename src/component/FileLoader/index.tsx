@@ -1,6 +1,7 @@
 import './index.less';
 import { Button } from 'antd';
 import PicturePreview from '../PicturePreview';
+import MusicPreview from '../MusicPreview';
 export interface IFileLoaderProps {}
 
 const tabs = [
@@ -50,6 +51,7 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
             </div>
             <div className="tab-contents p-2">
                 <PicturePreview />
+                <MusicPreview />
             </div>
         </div>
     );
