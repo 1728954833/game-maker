@@ -22,8 +22,11 @@
     "clean": "ets clean"
   },
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "egg": "^2.6.1",
-    "egg-scripts": "^2.6.0"
+    "egg-scripts": "^2.6.0",
+    "egg-static": "^2.2.0",
+    "stream-wormhole": "^1.1.0"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
@@ -47,7 +50,9 @@
     "type": "git",
     "url": ""
   },
-  "eslintIgnore": ["coverage"],
+  "eslintIgnore": [
+    "coverage"
+  ],
   "author": "",
   "license": "MIT"
 }

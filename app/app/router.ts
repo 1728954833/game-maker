@@ -1,7 +1,12 @@
-import { Application } from 'egg';
+import { Application } from 'egg'
 
-export default (app: Application) => {
+const router = (app: Application) => {
   const { controller, router } = app;
 
-  router.get('/', controller.home.index);
-};
+  router.get('api/', controller.home.index);
+
+  // file
+  router.post('/api/file/upload', controller.file.upload);
+}
+
+export default router
