@@ -27,6 +27,7 @@
   "scripts": {
     "prepare": "husky install",
     "start": "craco  start",
+    "start:app": "nodemon ./app/bin/www",
     "build": "craco  build",
     "test": "craco  test",
     "eject": "react-scripts eject",
