@@ -45,22 +45,50 @@ const tabs = [
     },
 ];
 
+export interface fileInfo {
+    filename: string;
+    url: string;
+}
+
 const FileLoader: React.FC<IFileLoaderProps> = props => {
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
+    useEffect(() => {
+        console.log(fileList);
+    }, [fileList]);
+
     const handleUpdate = (info: UploadChangeParam) => {
         setFileList(info.fileList);
-        // const { status } = info.file;
-        // console.log(status, info.fileList);
-        // if (status !== 'uploading') {
-        //     // console.log(info.file, info.fileList);
-        // }
-        // if (status === 'done') {
-        //     // message.success(`${info.file.name} 文件上传成功.`);
-        // } else if (status === 'error') {
-        //     // message.error(`${info.file.name} file upload failed.`);
-        // }
+        const { status } = info.file;
+        console.log(status, info.fileList);
+        if (status !== 'uploading') {
+            // console.log(info.file, info.fileList);
+        }
+        if (status === 'done') {
+            // message.success(`${info.file.name} 文件上传成功.`);
+        } else if (status === 'error') {
+            // message.error(`${info.file.name} file upload failed.`);
+        }
     };
+
+    const renderResource = () => {
+        return fileList.map(file => {
+            if (file.status === 'uploading') {
+                return <PicturePreview key={file.uid} percent={file.percent} />;
+            } else if (file.status === 'done') {
+                const fileInfo: fileInfo = file.response.data;
+                return (
+                    <PicturePreview
+                        key={file.uid}
+                        className="tab-content-preview-picture"
+                        src={BASE_URL + fileInfo.url}
+                        name={fileInfo.filename}
+                    />
+                );
+            }
+        });
+    };
+
     return (
         <div className="file-loader">
             <div className="tabs flex flex-wrap justify-around py-2">
@@ -78,13 +106,19 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                     />
                     <Upload handleUpdate={handleUpdate} />
                 </div>
-                {fileList.map(file => (
-                    <PicturePreview
-                        className="tab-content-preview-picture"
-                        src={`${BASE_URL}/public/uploads/[1631538431630]-bs_yk01h@.png`}
-                        name={'傻女a'}
-                    />
-                ))}
+                {/* <PicturePreview
+                    // className="tab-content-preview-picture"
+                    // src={`${BASE_URL}/public/uploads/[1631538431630]-bs_yk01h@.png`}
+                    // name={'傻女a'}
+                    percent={10}
+                />
+                <PicturePreview
+                    // className="tab-content-preview-picture"
+                    src={`${BASE_URL}/public/uploads/[1631543056354]-bs_yk02d.png`}
+                    name={'傻女a'}
+                    // percent={10}
+                /> */}
+                {renderResource()}
                 {/* <PicturePreview src={a} name={'傻女a'} /> */}
                 {/* <MusicPreview name="123" src={b} /> */}
             </div>

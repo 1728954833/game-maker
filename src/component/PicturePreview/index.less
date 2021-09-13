@@ -8,17 +8,32 @@
     min-width: 90px;
     padding: 6px;
     border: 1px solid @border-color;
-    margin-bottom: 10px;
+    position: relative;
 }
 
-.picture {
+.container-box {
     width: 70px;
     height: 70px;
     object-fit: contain;
     margin-bottom: 2px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 70px;
 }
 
 .picture-text {
     font-size: 12px;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.picture-upload-progress {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: @primary-color;
+    width: 100%;
+    margin: 0;
 }
