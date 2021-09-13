@@ -1,9 +1,13 @@
 import './index.less';
-import { Button } from 'antd';
+import { Button, message, Input } from 'antd';
+import Upload from '../Upload';
 import PicturePreview from '../PicturePreview';
 import MusicPreview from '../MusicPreview';
-import imgPath from 'C:/Users/dream/Desktop/朋友(Friends)-6_爱给网_aigei_com/bs_yk01d.png';
+import { useState, useEffect, useMemo } from 'react';
+import { UploadChangeParam } from 'antd/lib/upload';
+import { UploadFile } from 'antd/lib/upload/interface';
 
+const BASE_URL = process.env.REACT_APP_POIN;
 export interface IFileLoaderProps {}
 
 const tabs = [
@@ -42,18 +46,47 @@ const tabs = [
 ];
 
 const FileLoader: React.FC<IFileLoaderProps> = props => {
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    const handleUpdate = (info: UploadChangeParam) => {
+        setFileList(info.fileList);
+        // const { status } = info.file;
+        // console.log(status, info.fileList);
+        // if (status !== 'uploading') {
+        //     // console.log(info.file, info.fileList);
+        // }
+        // if (status === 'done') {
+        //     // message.success(`${info.file.name} 文件上传成功.`);
+        // } else if (status === 'error') {
+        //     // message.error(`${info.file.name} file upload failed.`);
+        // }
+    };
     return (
         <div className="file-loader">
             <div className="tabs flex flex-wrap justify-around py-2">
                 {tabs.map(tab => (
-                    <Button className="mb-1" key={tab.value}>
+                    <Button className="mb-1 tab" key={tab.value}>
                         {tab.label}
                     </Button>
                 ))}
             </div>
             <div className="tab-contents p-2">
-                <PicturePreview src={imgPath} name={'傻女a'} />
-                <MusicPreview name="123" src={'1.mp3'} />
+                <div className="flex justify-around w-full mb-2">
+                    <Input
+                        className="mr-3"
+                        placeholder={'之后会在此使用搜索框'}
+                    />
+                    <Upload handleUpdate={handleUpdate} />
+                </div>
+                {fileList.map(file => (
+                    <PicturePreview
+                        className="tab-content-preview-picture"
+                        src={`${BASE_URL}/public/uploads/[1631538431630]-bs_yk01h@.png`}
+                        name={'傻女a'}
+                    />
+                ))}
+                {/* <PicturePreview src={a} name={'傻女a'} /> */}
+                {/* <MusicPreview name="123" src={b} /> */}
             </div>
         </div>
     );

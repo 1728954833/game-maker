@@ -1,5 +1,9 @@
 @import "style/var.less";
 
+.tab {
+    width: 22%;
+}
+
 .file-loader {
     border-top: 1px solid @border-color;
     border-bottom: 1px solid @border-color;
@@ -7,4 +11,25 @@
 
 .tab-contents {
     border-top: 1px solid @border-color;
+    max-height: 400px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tab-content-preview-picture {
+    margin: 0 5px;
+}
+
+//  滚动条的轨道
+.tab-contents::-webkit-scrollbar{
+    width:4px;
+}
+// 中间滑块
+.tab-contents::-webkit-scrollbar-thumb{
+    background: #bfbfbf;
+    border-radius:10px;
+}
+.tab-contents::-webkit-scrollbar-thumb:hover{
+    background: #888;
 }

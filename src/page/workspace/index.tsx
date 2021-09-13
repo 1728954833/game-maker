@@ -10,7 +10,7 @@ const WorkSpacePage: React.FC<IWorkSpacePageProps> = props => {
         <Layout>
             <Header>Header</Header>
             <Layout className="content">
-                <Sider width="300">
+                <Sider width="324">
                     <FileLoader />
                 </Sider>
                 <Content>Content</Content>
