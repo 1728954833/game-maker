@@ -15,24 +15,23 @@ const PicturePreview: React.FC<
             {!percent ? (
                 <>
                     <img className="container-box" src={src} alt={name} />
-                    <span className="picture-text">{name}</span>
+                    <span className="container-text">{name}</span>
                 </>
             ) : (
                 <>
-                    <div className="container-box">
-                        <span>
-                            {percent === 100 ? '上传完成' : `上传中...${Math.floor(percent)}%`}
-                        </span>
-                    </div>
+                    <span className="container-box">
+                        {percent === 100 ? '上传完成' : `上传中...`}
+                    </span>
+                    <span className="container-text">
+                        {percent === 100 ? '' : `${Math.floor(percent)}%`}
+                    </span>
                     <p
                         style={{
                             width: `${percent}%`,
                             color: 'transparent',
                         }}
                         className="picture-upload-progress"
-                    >
-                        placeholder
-                    </p>
+                    ></p>
                 </>
             )}
         </div>
