@@ -2,8 +2,10 @@ import './index.less';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { Button, Upload as AntUpload } from 'antd';
 import { DraggerProps, UploadChangeParam } from 'antd/lib/upload';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 export interface IUploadProps {
+    fileList: UploadFile[];
     handleUpdate: (info: UploadChangeParam) => void;
 }
 
@@ -14,6 +16,7 @@ const Upload: React.FC<IUploadProps> = props => {
         multiple: true,
         // directory: true,
         action: '/api/file/upload',
+        fileList: props.fileList,
         showUploadList: false,
         onChange(info: UploadChangeParam) {
             handleUpdate && handleUpdate(info);

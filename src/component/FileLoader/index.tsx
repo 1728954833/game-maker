@@ -58,6 +58,7 @@ export interface FileResponse {
 
 const FileLoader: React.FC<IFileLoaderProps> = props => {
     const [active, setActive] = useState<keyof Files>('vertical-drawing');
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
     const { setLocal, getLocal } = useLocalStore<Files>();
     const { fileStore } = useStore();
 
@@ -66,6 +67,10 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
         if (!files) return;
         fileStore.init(files);
     }, [getLocal, fileStore]);
+
+    useEffect(() => {
+        setFileList([]);
+    }, [active]);
 
     const createFileItem = (file: UploadFile): FileItem => {
         const res: FileResponse = file.response?.data;
@@ -105,13 +110,12 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
         const { status } = file;
         if (status === 'done') {
             let files = getLocal('files') || fileStore.default;
-            setLocal('files', {
-                ...files,
-                [active]: fileStore.get(active),
-            });
+            setLocal('files', { ...files, [active]: fileStore.get(active) });
         } else if (status === 'error') {
             message.error(`${info.file.name} 文件上传失败.`);
         }
+
+        setFileList(fileList);
     };
 
     const renderResource = () => {
@@ -159,7 +163,7 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                         className="mr-3"
                         placeholder={'之后会在此使用搜索框'}
                     />
-                    <Upload handleUpdate={handleUpdate} />
+                    <Upload fileList={fileList} handleUpdate={handleUpdate} />
                 </div>
                 <div className="container">{renderResource()}</div>
                 {/* <PicturePreview src={a} name={'傻女a'} /> */}
