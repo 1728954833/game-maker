@@ -1,5 +1,6 @@
 import './index.less';
 import cn from 'classnames';
+import { isUndefined } from 'lodash';
 export interface IPicturePreviewProps {
     name?: string;
     src?: string;
@@ -12,7 +13,7 @@ const PicturePreview: React.FC<
     const { name, src, className, percent } = props;
     return (
         <div className={cn('picture-preview', className)}>
-            {!percent ? (
+            {isUndefined(percent) ? (
                 <>
                     <img className="container-box" src={src} alt={name} />
                     <span className="container-text">{name}</span>

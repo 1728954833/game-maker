@@ -74,7 +74,13 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
     const renderResource = () => {
         return fileList.map(file => {
             if (file.status === 'uploading') {
-                return <PicturePreview className="tab-content-preview-picture" key={file.uid} percent={file.percent} />;
+                return (
+                    <PicturePreview
+                        className="tab-content-preview-picture"
+                        key={file.uid}
+                        percent={file.percent}
+                    />
+                );
             } else if (file.status === 'done') {
                 const fileInfo: fileInfo = file.response.data;
                 return (

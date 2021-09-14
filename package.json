@@ -16,6 +16,7 @@
     "classnames": "^2.3.1",
     "craco-less": "^1.20.0",
     "install": "^0.13.0",
+    "lodash": "^4.17.21",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
     "npm": "^7.23.0",
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.15.4",
     "@testing-library/react-hooks": "^7.0.2",
+    "@types/lodash": "^4.14.172",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "validate-commit-msg": "^2.14.0"
