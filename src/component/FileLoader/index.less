@@ -11,10 +11,24 @@
 
 .tab-contents {
     border-top: 1px solid @border-color;
-    max-height: 400px;
-    overflow: auto;
-    display: flex;
-    flex-wrap: wrap;
+    .container {
+        max-height: 300px;
+        overflow: auto;
+        display: flex;
+        flex-wrap: wrap;
+        //  滚动条的轨道
+        &::-webkit-scrollbar {
+            width:4px;
+        }
+        // 中间滑块
+        &::-webkit-scrollbar-thumb {
+            background: #bfbfbf;
+            border-radius:10px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+    }
 }
 
 .tab-content-preview-picture {
@@ -29,15 +43,3 @@
     margin-bottom: 0;
 }
 
-//  滚动条的轨道
-.tab-contents::-webkit-scrollbar {
-    width:4px;
-}
-// 中间滑块
-.tab-contents::-webkit-scrollbar-thumb {
-    background: #bfbfbf;
-    border-radius:10px;
-}
-.tab-contents::-webkit-scrollbar-thumb:hover {
-    background: #888;
-}

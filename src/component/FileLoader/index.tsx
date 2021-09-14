@@ -112,6 +112,7 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                     />
                     <Upload handleUpdate={handleUpdate} />
                 </div>
+                <div className="container">{renderResource()}</div>
                 {/* <PicturePreview
                     // className="tab-content-preview-picture"
                     // src={`${BASE_URL}/public/uploads/[1631538431630]-bs_yk01h@.png`}
@@ -124,7 +125,6 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                     name={'傻女a'}
                     // percent={10}
                 /> */}
-                {renderResource()}
                 {/* <PicturePreview src={a} name={'傻女a'} /> */}
                 {/* <MusicPreview name="123" src={b} /> */}
             </div>
