@@ -9,6 +9,7 @@ import { FileItem, Files } from '../../store/file';
 import cn from 'classnames';
 import useLocalStore from '../../hook/useLocalStore';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { cloneDeep } from 'lodash';
 
 const BASE_URL = process.env.REACT_APP_POINT;
 export interface IFileLoaderProps {}
@@ -68,18 +69,37 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
         return {
             uid: file.uid,
             status: file.status,
-            name: res?.filename.split('-')[0],
+            name: res?.filename.split('-')[1],
             url: res?.url,
             percent: file.percent,
         };
     };
 
+    const mergeFileItem = (
+        origin: FileItem[],
+        files: FileItem[]
+    ): FileItem[] => {
+        origin = cloneDeep(origin);
+        files = cloneDeep(files);
+        const originUid = origin.map(o => o.uid);
+        files.forEach(file => {
+            const idx = originUid.indexOf(file.uid);
+            if (idx !== -1) {
+                origin[idx] = file;
+                return;
+            }
+            origin.push(file);
+        });
+
+        return origin;
+    };
+
     const handleUpdate = (info: UploadChangeParam) => {
         // 上传过程中同步file信息
-        const fileItem: FileItem[] = info.fileList.map(file =>
+        const fileItems: FileItem[] = info.fileList.map(file =>
             createFileItem(file)
         );
-        setFileList(fileItem);
+        setFileList(mergeFileItem(fileList, fileItems));
 
         // 上传结束后存储file信息
         const { status } = info.file;

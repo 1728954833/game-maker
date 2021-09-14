@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
 
-
-
 interface LocalStoreHook<T> {
     setLocal: (key: string, value: T) => void
     getLocal: (key: string) => T
