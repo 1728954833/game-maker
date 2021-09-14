@@ -2,12 +2,15 @@ import './index.less';
 import { Button, message, Input } from 'antd';
 import Upload from '../Upload';
 import PicturePreview from '../PicturePreview';
-import MusicPreview from '../MusicPreview';
-import { useState, useEffect, useMemo } from 'react';
+// import MusicPreview from '../MusicPreview';
+import { useState, useEffect } from 'react';
 import { UploadChangeParam } from 'antd/lib/upload';
+import { FileItem, Files } from '../../store/file';
+import cn from 'classnames';
+import useLocalStore from '../../hook/useLocalStore';
 import { UploadFile } from 'antd/lib/upload/interface';
 
-const BASE_URL = process.env.REACT_APP_POIN;
+const BASE_URL = process.env.REACT_APP_POINT;
 export interface IFileLoaderProps {}
 
 const tabs = [
@@ -45,29 +48,46 @@ const tabs = [
     },
 ];
 
-export interface fileInfo {
+export interface FileResponse {
     filename: string;
     url: string;
 }
 
 const FileLoader: React.FC<IFileLoaderProps> = props => {
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
-
+    const [fileList, setFileList] = useState<FileItem[]>([]);
+    const [active, setActive] = useState<keyof Files>('vertical-drawing');
+    const { setLocal, getLocal } = useLocalStore<FileItem[]>();
     useEffect(() => {
-        console.log(fileList);
-    }, [fileList]);
+        // TODO: 从本地加载数据到mobx
+        const files = getLocal('files');
+        setFileList(files || []);
+    }, [getLocal]);
+
+    const createFileItem = (file: UploadFile): FileItem => {
+        const res: FileResponse = file.response?.data;
+        return {
+            uid: file.uid,
+            status: file.status,
+            name: res?.filename.split('-')[0],
+            url: res?.url,
+            percent: file.percent,
+        };
+    };
 
     const handleUpdate = (info: UploadChangeParam) => {
-        setFileList(info.fileList);
+        // 上传过程中同步file信息
+        const fileItem: FileItem[] = info.fileList.map(file =>
+            createFileItem(file)
+        );
+        setFileList(fileItem);
+
+        // 上传结束后存储file信息
         const { status } = info.file;
-        console.log(status, info.fileList);
-        if (status !== 'uploading') {
-            // console.log(info.file, info.fileList);
-        }
         if (status === 'done') {
-            // message.success(`${info.file.name} 文件上传成功.`);
+            const files = getLocal('files');
+            setLocal('files', [...files, createFileItem(info.file)]);
         } else if (status === 'error') {
-            // message.error(`${info.file.name} file upload failed.`);
+            message.error(`${info.file.name} 文件上传失败.`);
         }
     };
 
@@ -82,16 +102,16 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                     />
                 );
             } else if (file.status === 'done') {
-                const fileInfo: fileInfo = file.response.data;
                 return (
                     <PicturePreview
                         key={file.uid}
                         className="tab-content-preview-picture"
-                        src={BASE_URL + fileInfo.url}
-                        name={fileInfo.filename}
+                        src={BASE_URL + file.url!}
+                        name={file.name}
                     />
                 );
             }
+            return null;
         });
     };
 
@@ -99,7 +119,13 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
         <div className="file-loader">
             <div className="tabs flex flex-wrap justify-around py-2">
                 {tabs.map(tab => (
-                    <Button className="mb-1 tab" key={tab.value}>
+                    <Button
+                        onClick={() => setActive(tab.value as keyof Files)}
+                        className={cn('mb-1 tab', {
+                            active: active === tab.value,
+                        })}
+                        key={tab.value}
+                    >
                         {tab.label}
                     </Button>
                 ))}
@@ -113,18 +139,6 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
                     <Upload handleUpdate={handleUpdate} />
                 </div>
                 <div className="container">{renderResource()}</div>
-                {/* <PicturePreview
-                    // className="tab-content-preview-picture"
-                    // src={`${BASE_URL}/public/uploads/[1631538431630]-bs_yk01h@.png`}
-                    // name={'傻女a'}
-                    percent={10}
-                />
-                <PicturePreview
-                    // className="tab-content-preview-picture"
-                    src={`${BASE_URL}/public/uploads/[1631543056354]-bs_yk02d.png`}
-                    name={'傻女a'}
-                    // percent={10}
-                /> */}
                 {/* <PicturePreview src={a} name={'傻女a'} /> */}
                 {/* <MusicPreview name="123" src={b} /> */}
             </div>
