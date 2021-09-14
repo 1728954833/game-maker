@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, toJS } from 'mobx'
 
 export interface FileItem {
     uid?: string
@@ -20,7 +20,7 @@ export type Files = {
 }
 
 class FileStore {
-    public files: Files = {
+    public _files: Files = {
         'sound-effect': [],
         'voice': [],
         'button': [],
@@ -35,20 +35,37 @@ class FileStore {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    addFile(type: keyof Files, file: FileItem) {
-        this.files[type].push(file)
+    get default(): Files {
+        return {
+            'sound-effect': [],
+            'voice': [],
+            'button': [],
+            'background': [],
+            'vertical-drawing': [],
+            'music': [],
+            'avatar': [],
+            'other': []
+        }
     }
 
-    removeFile(type: keyof Files, name: string) {
-        this.files[type].filter(file => file.name !== name)
+    get files(): Files {
+        return toJS(this._files)
+    }
+
+    init(files: Files) {
+        this._files = files
+    }
+
+    set(type: keyof Files, files: FileItem[]) {
+        this._files[type] = files
     }
 
     reset(type: keyof Files) {
-        this.files[type] = []
+        this._files[type] = []
     }
 
-    getFile(type: keyof Files): FileItem[] {
-        return this.files[type]
+    get(type: keyof Files): FileItem[] {
+        return toJS(this._files[type])
     }
 }
 

@@ -3,13 +3,15 @@ import { Button, message, Input } from 'antd';
 import Upload from '../Upload';
 import PicturePreview from '../PicturePreview';
 // import MusicPreview from '../MusicPreview';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { FileItem, Files } from '../../store/file';
 import cn from 'classnames';
 import useLocalStore from '../../hook/useLocalStore';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { cloneDeep } from 'lodash';
+import { useStore } from '../../context/StoreContext';
+import { observer } from 'mobx-react';
 
 const BASE_URL = process.env.REACT_APP_POINT;
 export interface IFileLoaderProps {}
@@ -55,14 +57,15 @@ export interface FileResponse {
 }
 
 const FileLoader: React.FC<IFileLoaderProps> = props => {
-    const [fileList, setFileList] = useState<FileItem[]>([]);
     const [active, setActive] = useState<keyof Files>('vertical-drawing');
-    const { setLocal, getLocal } = useLocalStore<FileItem[]>();
+    const { setLocal, getLocal } = useLocalStore<Files>();
+    const { fileStore } = useStore();
+
     useEffect(() => {
-        // TODO: 从本地加载数据到mobx
         const files = getLocal('files');
-        setFileList(files || []);
-    }, [getLocal]);
+        if (!files) return;
+        fileStore.init(files);
+    }, [getLocal, fileStore]);
 
     const createFileItem = (file: UploadFile): FileItem => {
         const res: FileResponse = file.response?.data;
@@ -84,35 +87,35 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
         const originUid = origin.map(o => o.uid);
         files.forEach(file => {
             const idx = originUid.indexOf(file.uid);
-            if (idx !== -1) {
-                origin[idx] = file;
-                return;
-            }
+            if (idx !== -1) return (origin[idx] = file);
             origin.push(file);
         });
-
         return origin;
     };
 
     const handleUpdate = (info: UploadChangeParam) => {
+        const { fileList, file } = info;
         // 上传过程中同步file信息
-        const fileItems: FileItem[] = info.fileList.map(file =>
+        const fileItems: FileItem[] = fileList.map(file =>
             createFileItem(file)
         );
-        setFileList(mergeFileItem(fileList, fileItems));
+        fileStore.set(active, mergeFileItem(fileStore.get(active), fileItems));
 
         // 上传结束后存储file信息
-        const { status } = info.file;
+        const { status } = file;
         if (status === 'done') {
-            const files = getLocal('files');
-            setLocal('files', [...files, createFileItem(info.file)]);
+            let files = getLocal('files') || fileStore.default;
+            setLocal('files', {
+                ...files,
+                [active]: fileStore.get(active),
+            });
         } else if (status === 'error') {
             message.error(`${info.file.name} 文件上传失败.`);
         }
     };
 
     const renderResource = () => {
-        return fileList.map(file => {
+        return fileStore.files[active].map(file => {
             if (file.status === 'uploading') {
                 return (
                     <PicturePreview
@@ -166,4 +169,4 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
     );
 };
 
-export default FileLoader;
+export default observer(FileLoader);

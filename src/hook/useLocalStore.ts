@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 interface LocalStoreHook<T> {
     setLocal: (key: string, value: T) => void
-    getLocal: (key: string) => T
+    getLocal: (key: string) => T | false
     removeLocal: (key: string) => void
 }
 
@@ -12,9 +12,9 @@ const useLocalStore = <T>(): LocalStoreHook<T> => {
         localStorage.setItem(key, JSON.stringify(value));
     }, [])
 
-    const getLocal = useCallback((key: string): T => {
+    const getLocal = useCallback((key: string): T | false => {
         const value = localStorage.getItem(key)
-        return value ? JSON.parse(value) : '';
+        return value ? JSON.parse(value) : false;
     }, [])
 
     const removeLocal = useCallback((key: string) => {
