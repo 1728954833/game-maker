@@ -6,9 +6,9 @@ function App() {
     const { counterStore } = useStore();
     return (
         <StoreProvider value={initStore}>
-            {counterStore.count}
+            {/* {counterStore.count}
             <button onClick={() => counterStore.increment()}>increment</button>
-            <button onClick={() => counterStore.reset()}>reset</button>
+            <button onClick={() => counterStore.reset()}>reset</button> */}
             <WorkSpacePage />
         </StoreProvider>
     );
