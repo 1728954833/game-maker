@@ -2,6 +2,7 @@ import './index.less';
 import cn from 'classnames';
 import { isUndefined } from 'lodash';
 import { useEffect } from 'react';
+import { useStore } from '../../context/StoreContext';
 export interface IPicturePreviewProps {
     name?: string;
     src?: string;
@@ -11,11 +12,13 @@ export interface IPicturePreviewProps {
 const PicturePreview: React.FC<
     IPicturePreviewProps & React.HTMLAttributes<HTMLDivElement>
 > = props => {
+    const { canvasStore } = useStore();
     const { name, src, className, percent } = props;
 
     const handleDragStart = (e: React.DragEvent) => {
-        console.log(percent);
         if (percent) return;
+        canvasStore.setDragResourceType('vertical-drawing');
+        canvasStore.setDragging(true);
         e.dataTransfer.setData(
             'picture',
             JSON.stringify({
@@ -26,9 +29,14 @@ const PicturePreview: React.FC<
         );
     };
 
+    const handleDragEnd = (e: React.DragEvent) => {
+        canvasStore.setDragging(false);
+    };
+
     return (
         <div
             onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
             draggable
             className={cn('picture-preview', className)}
         >

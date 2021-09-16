@@ -1,7 +1,67 @@
 @import "style/var.less";
 
 .canvas {
+    position: relative;
     height: 459px;
     border: 1px solid @border-color;
     overflow: hidden;
+
+    .guide-model {
+        display: none;
+        &.show {
+            display: flex;
+        }
+    }
+
+    .vertical-drawing {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        z-index: 999;
+        .one,
+        .two,
+        .three {
+            flex: 1;
+            height: 100%;
+            background-color:#1da57a87;
+
+            &.active {
+                background-color: #1da57aba;
+            }
+        }
+
+        .one {
+            border-right: 1px solid @border-color;
+        }
+        .one::after {
+            content: '左立绘';
+            .flex-center
+        }
+
+        .two {
+            border-right: 1px solid @border-color;
+        }
+        .two::after {
+            content: '中立绘';
+            .flex-center
+        }
+
+        .three::after {
+            content: '右立绘';
+            .flex-center
+        }
+    }
+}
+
+.component {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
