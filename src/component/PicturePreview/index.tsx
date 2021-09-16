@@ -1,6 +1,7 @@
 import './index.less';
 import cn from 'classnames';
 import { isUndefined } from 'lodash';
+import { useEffect } from 'react';
 export interface IPicturePreviewProps {
     name?: string;
     src?: string;
@@ -11,11 +12,34 @@ const PicturePreview: React.FC<
     IPicturePreviewProps & React.HTMLAttributes<HTMLDivElement>
 > = props => {
     const { name, src, className, percent } = props;
+
+    const handleDragStart = (e: React.DragEvent) => {
+        console.log(percent);
+        if (percent) return;
+        e.dataTransfer.setData(
+            'picture',
+            JSON.stringify({
+                name,
+                src,
+                type: 'img',
+            })
+        );
+    };
+
     return (
-        <div className={cn('picture-preview', className)}>
+        <div
+            onDragStart={handleDragStart}
+            draggable
+            className={cn('picture-preview', className)}
+        >
             {isUndefined(percent) ? (
                 <>
-                    <img className="container-box" src={src} alt={name} />
+                    <img
+                        draggable={false}
+                        className="container-box"
+                        src={src}
+                        alt={name}
+                    />
                     <span className="container-text">{name}</span>
                 </>
             ) : (

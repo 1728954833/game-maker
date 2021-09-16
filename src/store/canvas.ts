@@ -1,7 +1,11 @@
 import { makeAutoObservable, toJS } from 'mobx'
 
 interface Component {
-
+    width: number
+    height: number
+    src: string
+    name: string
+    type: string
 }
 
 class CanvasStore {
