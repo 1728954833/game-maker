@@ -1,6 +1,7 @@
 import './index.less';
 import { Layout } from 'antd';
 import FileLoader from '../../component/FileLoader';
+import Canvas from '../../component/Canvas';
 const { Header, Sider, Content } = Layout;
 
 export interface IWorkSpacePageProps {}
@@ -13,7 +14,9 @@ const WorkSpacePage: React.FC<IWorkSpacePageProps> = props => {
                 <Sider width="324">
                     <FileLoader />
                 </Sider>
-                <Content>Content</Content>
+                <Content>
+                    <Canvas />
+                </Content>
                 <Sider>Sider</Sider>
             </Layout>
         </Layout>
