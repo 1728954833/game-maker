@@ -5,7 +5,7 @@ import PicturePreview from '../PicturePreview';
 // import MusicPreview from '../MusicPreview';
 import { useState, useEffect, useRef } from 'react';
 import { UploadChangeParam } from 'antd/lib/upload';
-import { FileItem, Files } from '../../store/file';
+import { Resource, Resources } from '../../store/file';
 import cn from 'classnames';
 import useLocalStore from '../../hook/useLocalStore';
 import { UploadFile } from 'antd/lib/upload/interface';
@@ -57,22 +57,22 @@ export interface FileResponse {
 }
 
 const FileLoader: React.FC<IFileLoaderProps> = props => {
-    const [active, setActive] = useState<keyof Files>('vertical-drawing');
+    const [active, setActive] = useState<keyof Resources>('vertical-drawing');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
-    const { setLocal, getLocal } = useLocalStore<Files>();
-    const { fileStore } = useStore();
+    const { setLocal, getLocal } = useLocalStore<Resources>();
+    const { resourceStore } = useStore();
 
     useEffect(() => {
         const files = getLocal('files');
         if (!files) return;
-        fileStore.init(files);
-    }, [getLocal, fileStore]);
+        resourceStore.init(files);
+    }, [getLocal, resourceStore]);
 
     useEffect(() => {
         setFileList([]);
     }, [active]);
 
-    const createFileItem = (file: UploadFile): FileItem => {
+    const createFileItem = (file: UploadFile): Resource => {
         const res: FileResponse = file.response?.data;
         return {
             uid: file.uid,
@@ -84,9 +84,9 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
     };
 
     const mergeFileItem = (
-        origin: FileItem[],
-        files: FileItem[]
-    ): FileItem[] => {
+        origin: Resource[],
+        files: Resource[]
+    ): Resource[] => {
         origin = cloneDeep(origin);
         files = cloneDeep(files);
         const originUid = origin.map(o => o.uid);
@@ -101,16 +101,22 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
     const handleUpdate = (info: UploadChangeParam) => {
         const { fileList, file } = info;
         // 上传过程中同步file信息
-        const fileItems: FileItem[] = fileList.map(file =>
+        const fileItems: Resource[] = fileList.map(file =>
             createFileItem(file)
         );
-        fileStore.set(active, mergeFileItem(fileStore.get(active), fileItems));
+        resourceStore.set(
+            active,
+            mergeFileItem(resourceStore.get(active), fileItems)
+        );
 
         // 上传结束后存储file信息
         const { status } = file;
         if (status === 'done') {
-            let files = getLocal('files') || fileStore.default;
-            setLocal('files', { ...files, [active]: fileStore.get(active) });
+            let files = getLocal('files') || resourceStore.default;
+            setLocal('files', {
+                ...files,
+                [active]: resourceStore.get(active),
+            });
         } else if (status === 'error') {
             message.error(`${info.file.name} 文件上传失败.`);
         }
@@ -119,7 +125,7 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
     };
 
     const renderResource = () => {
-        return fileStore.files[active].map(file => {
+        return resourceStore.resource[active].map(file => {
             if (file.status === 'uploading') {
                 return (
                     <PicturePreview
@@ -147,7 +153,7 @@ const FileLoader: React.FC<IFileLoaderProps> = props => {
             <div className="tabs flex flex-wrap justify-around py-2">
                 {tabs.map(tab => (
                     <Button
-                        onClick={() => setActive(tab.value as keyof Files)}
+                        onClick={() => setActive(tab.value as keyof Resources)}
                         className={cn('mb-1 tab', {
                             active: active === tab.value,
                         })}

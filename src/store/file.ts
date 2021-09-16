@@ -1,6 +1,6 @@
 import { makeAutoObservable, toJS } from 'mobx'
 
-export interface FileItem {
+export interface Resource {
     uid?: string
     name?: string,
     url?: string,
@@ -8,19 +8,21 @@ export interface FileItem {
     status?: 'error' | 'success' | 'done' | 'uploading' | 'removed'
 }
 
-export type Files = {
-    'sound-effect': FileItem[]
-    'voice': FileItem[]
-    'button': FileItem[]
-    'background': FileItem[]
-    'vertical-drawing': FileItem[]
-    'music': FileItem[]
-    'avatar': FileItem[]
-    'other': FileItem[]
+export type Resources = {
+    'sound-effect': Resource[]
+    'voice': Resource[]
+    'button': Resource[]
+    'background': Resource[]
+    'vertical-drawing': Resource[]
+    'music': Resource[]
+    'avatar': Resource[]
+    'other': Resource[]
 }
 
-class FileStore {
-    public _files: Files = {
+export type ResourceType = keyof Resources
+
+class ResourceStore {
+    public _resource: Resources = {
         'sound-effect': [],
         'voice': [],
         'button': [],
@@ -35,7 +37,7 @@ class FileStore {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    get default(): Files {
+    get default(): Resources {
         return {
             'sound-effect': [],
             'voice': [],
@@ -48,25 +50,25 @@ class FileStore {
         }
     }
 
-    get files(): Files {
-        return toJS(this._files)
+    get resource(): Resources {
+        return toJS(this._resource)
     }
 
-    init(files: Files) {
-        this._files = files
+    init(resource: Resources) {
+        this._resource = resource
     }
 
-    set(type: keyof Files, files: FileItem[]) {
-        this._files[type] = files
+    set(type: ResourceType, resource: Resource[]) {
+        this._resource[type] = resource
     }
 
-    reset(type: keyof Files) {
-        this._files[type] = []
+    reset(type: ResourceType) {
+        this._resource[type] = []
     }
 
-    get(type: keyof Files): FileItem[] {
-        return toJS(this._files[type])
+    get(type: ResourceType): Resource[] {
+        return toJS(this._resource[type])
     }
 }
 
-export default FileStore
+export default ResourceStore

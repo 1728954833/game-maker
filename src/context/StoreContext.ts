@@ -1,17 +1,17 @@
 import { createContext, useContext } from 'react'
 import CounterStore from '../store/counter';
-import FileStore from '../store/file'
+import ResourceStore from '../store/file'
 import CanvasStore from '../store/canvas'
 
 interface Store {
     counterStore: CounterStore
-    fileStore: FileStore
+    resourceStore: ResourceStore
     canvasStore: CanvasStore
 }
 
 export const initStore = {
     counterStore: new CounterStore(),
-    fileStore: new FileStore(),
+    resourceStore: new ResourceStore(),
     canvasStore: new CanvasStore()
 }
 

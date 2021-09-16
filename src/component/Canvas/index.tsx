@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react';
+import { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
+import { ResourceType } from '../../store/file';
 import './index.less';
 export interface ICanvasProps {}
 
@@ -9,6 +11,8 @@ export interface ICanvasProps {}
 // 拖拽过程是否需要辅助线???
 
 const Canvas: React.FC<ICanvasProps> = props => {
+    const [dragResourceType, setDragResourceType] =
+        useState<ResourceType>('vertical-drawing');
     const { canvasStore } = useStore();
 
     const handleDragEnter = () => {
