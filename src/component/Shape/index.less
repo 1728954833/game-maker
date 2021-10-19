@@ -5,9 +5,12 @@
 .Shape {
     height: 100%;
     position: absolute;
-    border: 1px solid white;
     top: 0;
     left: 0;
+    box-sizing: border-box;
+    &.show {
+        cursor: move;
+    }
     .point {
         position: absolute;
         width: @shape;
@@ -15,7 +18,6 @@
         border-radius: 50%;
         background-color: salmon;
     }
-    // 'left-top', 'right-top', 'bottom-left', 'right-bottom'
     .point-left-top {
         top: -(@shape / 2);
         left: -(@shape / 2);
@@ -35,5 +37,30 @@
         bottom: -(@shape / 2);
         right: -(@shape / 2);
         cursor: nwse-resize;
+    }
+
+    .line {
+        position: absolute;
+        background-color: white;
+    }
+    .line-top {
+        width: 100%;
+        height: 1px;
+        top: 0;
+    }
+    .line-left {
+        height: 100%;
+        width: 1px;
+        left: 0;
+    }
+    .line-right {
+        height: 100%;
+        width: 1px;
+        right: 0;
+    }
+    .line-bottom {
+        width: 100%;
+        height: 1px;
+        bottom: 0;
     }
 }
