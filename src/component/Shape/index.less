@@ -1,0 +1,39 @@
+@import "style/var.less";
+
+@shape: 12px;
+
+.Shape {
+    height: 100%;
+    position: absolute;
+    border: 1px solid white;
+    top: 0;
+    left: 0;
+    .point {
+        position: absolute;
+        width: @shape;
+        height: @shape;
+        border-radius: 50%;
+        background-color: salmon;
+    }
+    // 'left-top', 'right-top', 'bottom-left', 'right-bottom'
+    .point-left-top {
+        top: -(@shape / 2);
+        left: -(@shape / 2);
+        cursor: nwse-resize;
+    }
+    .point-right-top {
+        right: -(@shape / 2);
+        top: -(@shape / 2);
+        cursor: nesw-resize;
+    }
+    .point-left-bottom {
+        bottom: -(@shape / 2);
+        left: -(@shape / 2);
+        cursor: nesw-resize;
+    }
+    .point-right-bottom {
+        bottom: -(@shape / 2);
+        right: -(@shape / 2);
+        cursor: nwse-resize;
+    }
+}

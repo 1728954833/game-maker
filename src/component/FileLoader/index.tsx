@@ -3,7 +3,7 @@ import { Button, message, Input } from 'antd';
 import Upload from '../Upload';
 import PicturePreview from '../PicturePreview';
 // import MusicPreview from '../MusicPreview';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { Resource, Resources } from '../../store/file';
 import cn from 'classnames';
@@ -14,7 +14,7 @@ import { useStore } from '../../context/StoreContext';
 import { observer } from 'mobx-react';
 
 const BASE_URL = process.env.REACT_APP_POINT;
-export interface IFileLoaderProps {}
+export interface IFileLoaderProps { }
 
 const tabs = [
     {

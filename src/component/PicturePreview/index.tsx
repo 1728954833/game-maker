@@ -1,7 +1,7 @@
 import './index.less';
 import cn from 'classnames';
 import { isUndefined } from 'lodash';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useStore } from '../../context/StoreContext';
 export interface IPicturePreviewProps {
     name?: string;

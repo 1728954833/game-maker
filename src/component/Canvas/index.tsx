@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import cn from 'classnames';
 import { useStore } from '../../context/StoreContext';
-import { ResourceType } from '../../store/file';
+// import { ResourceType } from '../../store/file';
 import './index.less';
-export interface ICanvasProps {}
+import Shape from '../Shape';
+export interface ICanvasProps { }
 
 // 拖拽行为
 // 1. 当拖拽资源进入被拖拽对象会根据拖拽对象类型产生不同行为
@@ -36,15 +37,21 @@ const Canvas: React.FC<ICanvasProps> = props => {
 
     const renderCanvas = () => {
         const components = canvasStore.drawComponents;
+        console.log(components)
         return components.map(item => {
             if (item.type === 'img') {
                 return (
-                    <img
+                    <Shape
                         key={item.id}
-                        className="component"
-                        src={item.src}
-                        alt={item.name}
-                    />
+                        style={{ width: '33%' }}
+                    >
+                        <img
+                            draggable={false}
+                            className="component"
+                            src={item.src}
+                            alt={item.name}
+                        />
+                    </Shape>
                 );
             }
             return null;
@@ -53,7 +60,7 @@ const Canvas: React.FC<ICanvasProps> = props => {
 
     const renderGuideFrame = () => {
         const { dragResourceType } = canvasStore;
-        
+
         const guideModelClassName = cn(`guide-model ${dragResourceType}`, {
             show: true,
         });
@@ -97,7 +104,7 @@ const Canvas: React.FC<ICanvasProps> = props => {
             onDrop={handleDrop}
             className="canvas"
         >
-            {renderGuideFrame()}
+            {/* {renderGuideFrame()} */}
             {renderCanvas()}
         </div>
     );

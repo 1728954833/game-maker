@@ -1,9 +1,9 @@
 import WorkSpacePage from '../page/workspace';
 import { observer } from 'mobx-react';
-import { StoreProvider, initStore, useStore } from '../context/StoreContext';
+import { StoreProvider, initStore } from '../context/StoreContext';
 
 function App() {
-    const { counterStore } = useStore();
+    // const { counterStore } = useStore();
     return (
         <StoreProvider value={initStore}>
             {/* {counterStore.count}
